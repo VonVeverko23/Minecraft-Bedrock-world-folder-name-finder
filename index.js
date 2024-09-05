@@ -1,5 +1,5 @@
 const fs = require('fs');
-const config = require('./config.json');
+const config = require('../config.json');
 var lvlname;
 var originalLvlname;
 const readline = require('readline').createInterface({
@@ -24,14 +24,16 @@ readline.question('What world would you like to search?> ', answer => {
 });
 
 function findLevelName(directory) {
-    fs.readFile((config.mcWorldsAddress + "\\" + directory + '\\levelname.txt'), 'utf8', function (err, levelname) {
-        if (err) {
-            console.log('Problem when reading levelname.txt: ', err);
-               return;
-        }
-        if (levelname.toLowerCase() == lvlname) {
-            console.log('The world folder "' + originalLvlname + '" is "' + directory + '"');
-            console.log('Folder address: ' + config.mcWorldsAddress + "\\" + directory);
-        };
-    });
+    if (directory != "exported") {
+        fs.readFile((config.mcWorldsAddress + "\\" + directory + '\\levelname.txt'), 'utf8', function (err, levelname) {
+            if (err) {
+                console.log('Problem when reading levelname.txt: ', err);
+                   return;
+            }
+            if (levelname.toLowerCase() == lvlname) {
+                console.log('The world folder "' + originalLvlname + '" is "' + directory + '"');
+                console.log('Folder address: ' + config.mcWorldsAddress + "\\" + directory);
+            };
+        });
+    };
 };
